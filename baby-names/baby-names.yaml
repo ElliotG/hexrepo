@@ -28,7 +28,7 @@ cells:
       source: |-
         select * from babynames.names_2014
         order by count desc
-        LIMIT 100;
+        LIMIT 1000;
       dataFrameCell: false
       dataConnectionId: 5e18f5b8-4d32-40d7-9b24-03a8d94d1c8f
       resultVariableName: all_data
