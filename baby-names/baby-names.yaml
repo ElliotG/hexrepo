@@ -1,0 +1,170 @@
+schemaVersion: 1
+meta:
+  sourceVersionId: 79824b9d-3b51-45f8-9e38-d4159e90d683 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: null
+  projectId: 6686e0e9-6f41-4622-a8bd-d09e426a0281 # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: Baby Names
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status:
+    name: In Progress
+  categories: []
+  castDecimalsDefault: true
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 5e18f5b8-4d32-40d7-9b24-03a8d94d1c8f # BabyNames (bigquery)
+cells:
+  - cellType: SQL
+    cellId: d152060e-04d8-484d-a109-87c02f5b99ef # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: All data
+    config:
+      source: |-
+        select * from babynames.names_2014
+        order by count desc
+        LIMIT 100;
+      dataFrameCell: false
+      dataConnectionId: 5e18f5b8-4d32-40d7-9b24-03a8d94d1c8f
+      resultVariableName: all_data
+      enableCache: false
+      runOnLoad: false
+      runOnSchedule: false
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: FILTER
+    cellId: c92957cc-dd95-4a53-96ea-2c67c15c4e43 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Gender filter
+    config:
+      dataframeName: all_data
+      resultVariable: gender_filter
+      filters:
+        filters:
+          - column: gender
+            matchCase: true
+            operation:
+              op: EQ
+              arg: M
+            columnType: STRING
+        operation: AND
+      filterType: KEEP
+      appMode: FULL_ACCESS
+      castDecimals: true
+      enableCache: false
+      runOnLoad: false
+      runOnSchedule: false
+      useQueryMode: false
+      useNativeDates: true
+  - cellType: SQL
+    cellId: e6e026d1-2c98-422f-8db0-f732a9f11208 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: Top 10
+    config:
+      source: |-
+        select * from gender_filter
+        order by count desc
+        LIMIT 10;
+      dataFrameCell: true
+      dataConnectionId: null
+      resultVariableName: top_10
+      enableCache: false
+      runOnLoad: false
+      runOnSchedule: false
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: CHARTV2
+    cellId: 96badcfc-df39-4502-8095-12328eeb4244 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: bb393075-e238-4042-8999-d9545ec558cf
+            xAxis:
+              sort: -x
+              type: string
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              dataFrameColumn: name
+            series:
+              - id: 0015c86c-a147-4b68-aed8-aef030240903
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                  aggregate: sum
+                type: bar
+                color:
+                  type: static
+                layout: grouped
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                barWidth: 1
+                colorOrder: []
+                orientation: horizontal
+                dataFrameColumns:
+                  - count
+            dataFrame: top_10
+        settings:
+          legend:
+            position: right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      resultVariable: filter_result
+appLayout:
+  fullWidth: false
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  rows:
+    - columns:
+        - start: 0
+          end: 120
+          elements:
+            - showSource: false
+              hideOutput: false
+              type: CELL
+              cellId: c92957cc-dd95-4a53-96ea-2c67c15c4e43
+              height: null
+              showLabel: true
+    - columns:
+        - start: 0
+          end: 120
+          elements:
+            - showSource: false
+              hideOutput: false
+              type: CELL
+              cellId: 96badcfc-df39-4502-8095-12328eeb4244
+              height: null
+              showLabel: true
